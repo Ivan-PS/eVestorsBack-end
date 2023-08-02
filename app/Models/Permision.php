@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Folder extends Model
+class Permision extends Model
 {
     protected $fillable = [
-        'name',
-        'description',
-        'parent',
-        'description',
+        'id_user',
+        'id_folder'
     ];
 }

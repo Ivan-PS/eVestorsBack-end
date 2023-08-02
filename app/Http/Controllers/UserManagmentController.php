@@ -37,7 +37,7 @@ class UserManagmentController extends Controller
     }
 
     public function createTest(Request $request)
-    {
+    { 
 
         $name = "test";
         $password = "test";
@@ -80,5 +80,18 @@ class UserManagmentController extends Controller
                 'message' => "valid user",
                 'response' => $user,
             ], 200);
+    }
+
+    public function getById(Request $request)
+    {
+
+        $id = $request->$id;
+
+        $user = User::where('id', $id)->get();
+        return response()->json([
+                'message' => "getById USER",
+                'response' => $user,
+            ], 200);
+    
     }
 }

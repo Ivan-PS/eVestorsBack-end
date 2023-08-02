@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Folder extends Model
+class InversionRelation extends Model
 {
     protected $fillable = [
-        'name',
-        'description',
-        'parent',
-        'description',
+        'owner_id',
+        'inversor_id',
+        'percent'
     ];
 }
