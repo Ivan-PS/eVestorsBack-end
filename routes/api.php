@@ -63,6 +63,7 @@ Route::group(['prefix' => '/permision'], function () {
     
     Route::post('/create', [PermisionController::class, 'create']);
     Route::post('/getIfPermisionUserFolder', [PermisionController::class, 'getIfPermisionUserFolder']);
+    Route::post('/getIfPermisionUserFile', [PermisionController::class, 'getIfPermisionUserFile']);
     Route::post('/deleteById', [PermisionController::class, 'deleteById']);
    
     }

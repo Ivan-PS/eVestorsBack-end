@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Permision extends Model
 {
     protected $fillable = [
-        'id_user',
-        'id_folder'
+        'user_id',
+        'item_id',
+        'type'
     ];
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('user_id');
-            $table->integer('folder_id');
-            
+            $table->integer('item_id');
+            $table->integer('type');
         });
     }
 
