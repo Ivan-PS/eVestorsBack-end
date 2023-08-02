@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserManagmentController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\InversionRelationController;
 use App\Http\Controllers\PermisionController;
 
@@ -50,9 +51,10 @@ Route::group(['prefix' => '/inversion'], function () {
 
 Route::group(['prefix' => '/file'], function () {
     
-    Route::post('/create', [FolderController::class, 'create']);
-    Route::post('/getById', [FolderController::class, 'getById']);
-    Route::post('/deleteById', [FolderController::class, 'deleteById']);
+    Route::post('/create', [FileController::class, 'create']);
+    Route::post('/getById', [FileController::class, 'getById']);
+    Route::post('/getByParent', [FileController::class, 'getByParent']);
+    Route::post('/deleteById', [FileController::class, 'deleteById']);
     }
 );
 
