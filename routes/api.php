@@ -34,6 +34,7 @@ Route::group(['prefix' => '/folder'], function () {
     Route::post('/create', [FolderController::class, 'create']);
     Route::post('/getById', [FolderController::class, 'getById']);
     Route::post('/deleteById', [FolderController::class, 'deleteById']);
+    Route::post('/getByParent', [FolderController::class, 'getByParent']);
 
     }
 );

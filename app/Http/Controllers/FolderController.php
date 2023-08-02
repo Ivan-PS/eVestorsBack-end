@@ -44,6 +44,19 @@ class FolderController extends Controller
     
     }
 
+    public function getByParent(Request $request)
+    {
+
+        $parent= $request->$parent;
+
+        $file = File::where('parent', $parent)->get();
+        return response()->json([
+                'message' => "getBy parent file",
+                'response' => $file,
+            ], 200);
+    
+    }
+    
     public function deleteById(Request $request)
     {
 
