@@ -5,11 +5,20 @@ use Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Log;
 
 class UserManagmentController extends Controller
 {
-    public function create(Request $request)
+
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function register(Request $request)
     {
 
         $name = $request->name;
@@ -19,68 +28,34 @@ class UserManagmentController extends Controller
         $email = $request->email;
         $type = $request->type;
 
+        $user = $this->userService->registerUser($name, $password, $firstName, $secondName, $email, $type);
 
-        $user = User::create([
-            "name"=> $name,
-            "password"=> $password,
-            "email"=> $email,
-            "firstName"=> $firstName,
-            "secondName"=> $secondName,
-            "type"=> $type
-        ]);
- 
-        return response()->json([
+        if($isOK){
+            return response()->json([
                 'message' => "created user",
                 'response' => $user,
             ], 200);
-    
-    }
-
-    public function createTest(Request $request)
-    { 
-
-        $name = "test";
-        $password = "test";
-        $firstName = "test";
-        $secondName = "test";
-        $email = "test";
-        $type = 0;
-
-
-        $user = User::create([
-            "name"=> $name,
-            "password"=> $password,
-            "email"=> $email,
-            "firstName"=> $firstName,
-            "secondName"=> $secondName,
-            "type"=> $type,
-            "sessionToken" => generateRandomToken()
-
-        ]);
-
+        }
         return response()->json([
-                'message' => "created user",
-                'response' => $user,
-            ], 200);
-    
+            'message' => "Error Crete User",
+        ], 401);
+
+
+
     }
+
 
     function login(Request $request){
-        Log::debug("do login");
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !password_verify($request->password, $user->password)) {
-            Log::debug("do login  fail");
-
+        $email = $request->email;
+        $password = $request->password;
+        if(!$this->userService->login($email, $password)){
             return response()->json(['message' => 'Invalid email or password'], 401);
         }
-
-        Log::debug("do login succes");
-
         return response()->json([
-                'message' => "valid user",
-                'response' => $user,
-            ], 200);
+            'message' => "valid user",
+            'response' => $user,
+        ], 200);
+
     }
 
     public function getById(Request $request)
@@ -93,17 +68,8 @@ class UserManagmentController extends Controller
                 'message' => "getById USER",
                 'response' => $user,
             ], 200);
-    
+
     }
 
-    function generateRandomToken() {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $String = '';
-        for ($i = 0; $i < 20; ++$i) {
-            $String .= $characters[rand(0, $charactersLength - 1)];
-        }
-        $_SESSION['token'] = $String;
-        echo $String;
-    }
+
 }

@@ -20,9 +20,8 @@ use App\Http\Controllers\PermisionController;
 |
 */
 Route::group(['prefix' => '/user'], function () {
-    
-    Route::post('/create', [UserManagmentController::class, 'create']);
-    Route::post('/createTest', [UserManagmentController::class, 'createTest']);
+
+    Route::post('/create', [UserManagmentController::class, 'register']);
     Route::post('/login', [UserManagmentController::class, 'login']);
     Route::post('/getById', [UserManagmentController::class, 'getById']);
 
@@ -30,7 +29,7 @@ Route::group(['prefix' => '/user'], function () {
 );
 
 Route::group(['prefix' => '/folder'], function () {
-    
+
     Route::post('/create', [FolderController::class, 'create']);
     Route::post('/getById', [FolderController::class, 'getById']);
     Route::post('/deleteById', [FolderController::class, 'deleteById']);
@@ -40,18 +39,18 @@ Route::group(['prefix' => '/folder'], function () {
 );
 
 Route::group(['prefix' => '/inversion'], function () {
-    
+
     Route::post('/create', [InversionRelationController::class, 'create']);
     Route::post('/getByOwnerId', [InversionRelationController::class, 'getByOwnerId']);
     Route::post('/getByInversorId', [InversionRelationController::class, 'getByInversorId']);
     Route::post('/deleteById', [InversionRelationController::class, 'deleteById']);
     Route::post('/updateById', [InversionRelationController::class, 'updateById']);
-   
+
     }
 );
 
 Route::group(['prefix' => '/file'], function () {
-    
+
     Route::post('/create', [FileController::class, 'create']);
     Route::post('/getById', [FileController::class, 'getById']);
     Route::post('/getByParent', [FileController::class, 'getByParent']);
@@ -60,11 +59,11 @@ Route::group(['prefix' => '/file'], function () {
 );
 
 Route::group(['prefix' => '/permision'], function () {
-    
+
     Route::post('/create', [PermisionController::class, 'create']);
     Route::post('/getIfPermisionUserFolder', [PermisionController::class, 'getIfPermisionUserFolder']);
     Route::post('/getIfPermisionUserFile', [PermisionController::class, 'getIfPermisionUserFile']);
     Route::post('/deleteById', [PermisionController::class, 'deleteById']);
-   
+
     }
 );
