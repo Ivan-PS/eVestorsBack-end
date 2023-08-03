@@ -53,7 +53,8 @@ class UserManagmentController extends Controller
             "email"=> $email,
             "firstName"=> $firstName,
             "secondName"=> $secondName,
-            "type"=> $type
+            "type"=> $type,
+            "sessionToken" => generateRandomToken()
 
         ]);
 
@@ -93,5 +94,16 @@ class UserManagmentController extends Controller
                 'response' => $user,
             ], 200);
     
+    }
+
+    function generateRandomToken() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $String = '';
+        for ($i = 0; $i < 20; ++$i) {
+            $String .= $characters[rand(0, $charactersLength - 1)];
+        }
+        $_SESSION['token'] = $String;
+        echo $String;
     }
 }

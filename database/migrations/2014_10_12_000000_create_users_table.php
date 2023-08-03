@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('firstName');
             $table->string('secondName');
             $table->integer('type');
+            $table->String('sessionToken');
             $table->rememberToken();
             $table->timestamps();
         });
