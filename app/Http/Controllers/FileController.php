@@ -6,9 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\File;
 use Illuminate\Support\Facades\Log;
+use App\Services\FileService;
+
 
 class FileController extends Controller
 {
+
+    protected $fileService;
+
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
     public function create(Request $request)
     {
 
@@ -17,13 +26,7 @@ class FileController extends Controller
         $parent = $request->$parent;
         $path = $request->path;
 
-        $file = File::create([
-            "name"=> $name,
-            "description"=> $description,
-            "parent"=> $parent,
-            "path"=> $path,
-        ]);
- 
+        $file = $this->fileService->createFile($user_id, $name, $parent, $path);
         return response()->json([
                 'message' => "created file",
                 'response' => $file,
@@ -36,7 +39,7 @@ class FileController extends Controller
 
         $id = $request->$id;
 
-        $file = File::where('id', $id)->get();
+        $file = $this->fileService->getById($id);
         return response()->json([
                 'message' => "getById file",
                 'response' => $file,
@@ -49,7 +52,7 @@ class FileController extends Controller
 
         $parent= $request->$parent;
 
-        $file = File::where('parent', $parent)->get();
+        $file = $this->fileService->getByParent($parent);
         return response()->json([
                 'message' => "getBy parent file",
                 'response' => $file,
@@ -62,12 +65,18 @@ class FileController extends Controller
 
         $id = $request->$id;
 
-        $file = File::where('id', $id)->delete();
+        $file = $this->fileService->deleteById($id);
         return response()->json([
                 'message' => "delete file",
                 'response' => $file,
             ], 200);
     
     }
+
+    /*public function getFoldersByIdUserWithPermisions(Request $request){
+        $parent = $request->parent;
+        $user_id = $request->idUser;
+        return $this->folderService->getFoldersByIdUserWithPermisions($user_id, $parent);
+    }*/
     
 }

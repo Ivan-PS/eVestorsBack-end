@@ -28,7 +28,7 @@ class UserDao
 
 
     function getByEmail($email){
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $email)->first();
         return $user;
     }
 

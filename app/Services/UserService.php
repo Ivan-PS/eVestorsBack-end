@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Daos\UserDao;
 use Illuminate\Support\Facades\Log;
 
-class FolderService
+class UserService
 {
     protected $userDao;
 
@@ -18,11 +18,19 @@ class FolderService
         Log::debug("do login");
         $user = $this->userDao->getByEmail($email);
         Log::debug(strval($user));
-        if (!$user || !password_verify($request->password, $user->password)) {
+        if (!$user || !password_verify($password, $user->password)) {
             Log::debug("do login  fail");
             return false;
         }
         return true;
+    }
+
+    public function getByEmail($email) {
+        return $this->userDao->getByEmail($email);
+    }
+
+    public function getUserById($id){
+        return $this->userDao->getUserById($id);
     }
 
     public function registerUser($name, $password, $firstName, $secondName, $email, $type){

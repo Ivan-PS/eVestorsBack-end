@@ -20,7 +20,7 @@ class UserManagmentController extends Controller
 
     public function register(Request $request)
     {
-
+        Log::debug("TO CREATE USER: ");
         $name = $request->name;
         $password = $request->password;
         $firstName = $request->firstName;
@@ -29,8 +29,11 @@ class UserManagmentController extends Controller
         $type = $request->type;
 
         $user = $this->userService->registerUser($name, $password, $firstName, $secondName, $email, $type);
+        
+        Log::debug("USER CREATED: " . strval($user));
 
-        if($isOK){
+
+        if($user != null){
             return response()->json([
                 'message' => "created user",
                 'response' => $user,
@@ -40,17 +43,20 @@ class UserManagmentController extends Controller
             'message' => "Error Crete User",
         ], 401);
 
+        
+
 
 
     }
 
 
-    function login(Request $request){
+    public function login(Request $request){
         $email = $request->email;
         $password = $request->password;
-        if(!$this->userService->login($email, $password)){
+        if(!$this->userService->loginUser($email, $password)){
             return response()->json(['message' => 'Invalid email or password'], 401);
         }
+        $user = $this->userService->getByEmail($email);
         return response()->json([
             'message' => "valid user",
             'response' => $user,

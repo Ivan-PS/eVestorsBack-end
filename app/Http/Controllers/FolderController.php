@@ -6,24 +6,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Log;
+use App\Services\FolderService;
+
 
 class FolderController extends Controller
 {
+
+    protected $folderService;
+
+    public function __construct(FolderService $folderService)
+    {
+        $this->folderService = $folderService;
+    }
     public function create(Request $request)
     {
-
+        $user_id = $request->idUser;
         $name = $request->name;
         $description = $request->description;
-        $parent = $request->$parent;
+        $parent = $request->parent;
         $path = $request->path;
+        Log::debug(strval($path));
+        
 
-        $folder = Folder::create([
-            "name"=> $name,
-            "description"=> $description,
-            "parent"=> $parent,
-            "path"=> $path,
-        ]);
- 
+        $folder = $this->folderService->createFolder($user_id, $description, $name, $parent, $path);
         return response()->json([
                 'message' => "created folder",
                 'response' => $folder,
@@ -36,7 +41,7 @@ class FolderController extends Controller
 
         $id = $request->$id;
 
-        $folder = Folder::where('id', $id)->get();
+        $folder = $this->folderService->getById($id);
         return response()->json([
                 'message' => "getById folder",
                 'response' => $folder,
@@ -49,25 +54,31 @@ class FolderController extends Controller
 
         $parent= $request->$parent;
 
-        $file = File::where('parent', $parent)->get();
+        $folder = $this->folderService->getByParent($parent);
         return response()->json([
-                'message' => "getBy parent file",
-                'response' => $file,
+                'message' => "getBy parent folder",
+                'response' => $folder,
             ], 200);
     
     }
-    
+
     public function deleteById(Request $request)
     {
 
         $id = $request->$id;
 
-        $folder = Folder::where('id', $id)->delete();
+        $folder = $this->folderService->deleteById($id);
         return response()->json([
                 'message' => "delete folder",
                 'response' => $folder,
             ], 200);
     
+    }
+
+    public function getFoldersByIdUserWithPermisions(Request $request){
+        $parent = $request->parent;
+        $user_id = $request->idUser;
+        return $this->folderService->getFoldersByIdUserWithPermisions($user_id, $parent);
     }
     
 }

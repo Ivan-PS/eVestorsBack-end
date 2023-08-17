@@ -34,9 +34,16 @@ class PermisionDao
     }
     public function deleteById($id)
     {
-
         $permision = Permision::where('id', $id)->delete();
         return $permision;
     }
+
+
+    public function getPermisionByItem($item_id){
+        $permision = Permision::where('item_id', $item_id)->get();
+        return $permision;
+    }
+
+    
 
 }

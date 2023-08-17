@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class FolderDao
 {
-    public function create($user_id, $name, $parent, $path)
+    public function create($user_id, $name, $description, $parent, $path)
     {
 
         $folder = Folder::create([
@@ -15,7 +15,7 @@ class FolderDao
             "name"=> $name,
             "description"=> $description,
             "parent"=> $parent,
-            "path"=> $path,
+            "path"=> "/",
         ]);
 
         return $folder;
@@ -30,12 +30,15 @@ class FolderDao
 
     public function getByParent($parent)
     {
-
-
         $folder = Folder::where('parent', $parent)->get();
         return $folder;
-
     }
+
+    public function getFoldersWithPermision($parent, $user_id) {
+
+    }    
+
+
 
     public function deleteById($id)
     {
