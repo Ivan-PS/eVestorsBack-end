@@ -5,13 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Folder extends Model
+class startupAccessCodes extends Model
 {
     protected $fillable = [
-        'name',
-        'description',
-        'parent',
-        'path',
-        'startup_id'
+        'startup_id',
+        'accessCode'
     ];
 }

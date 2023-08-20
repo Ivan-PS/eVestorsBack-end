@@ -18,8 +18,8 @@ class FolderService
         $this->permisionDao = $permisionDao;
     }
 
-    public function createFolder($user_id, $name, $descripton, $parent, $path)  {
-        $folder =  $this->folderDao->create($user_id, $name, $descripton, $parent, $path);
+    public function createFolder($user_id, $name, $descripton, $parent, $path, $startup_id)  {
+        $folder =  $this->folderDao->create($user_id, $name, $descripton, $parent, $path, $startup_id);
         $this->permisionDao->create($user_id, $folder->id, 1);
         return $folder;
     }
@@ -28,15 +28,17 @@ class FolderService
         return $this->folderDao->getById($id);
     }
 
-    public function getByParent($parent)
+    public function getByParent($parent, $startup_id)
     {
-        $folder = $this->folderDao->getByParent($parent);
+        $folder = $this->folderDao->getByParent($parent, $startup_id);
         return $folder;
     }
 
-    public function getFoldersByIdUserWithPermisions($idUser, $parent){
-        $folders = $this->getByParent($parent);
+    public function getFoldersByIdUserWithPermisions($idUser, $parent, $startup_id){
+        $folders = $this->getByParent($parent, $startup_id);
         $foldersAllowed = [];
+
+        Log::debug($folders);
 
         foreach ($folders as  $folder) {
             $permisionsInFolder = $this->permisionDao->getPermisionByItem($folder->id);

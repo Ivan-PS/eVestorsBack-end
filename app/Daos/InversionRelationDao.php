@@ -10,7 +10,7 @@ class InversionRelationDao
     public function create($owner_id, $inversor_id, $percent)
     {
 
-        $inversion = InversorRelation::create([
+        $inversion = InversionRelation::create([
             "owner_id"=> $owner_id,
             "inversor_id"=> $inversor_id,
             "percent"=> $parent
@@ -22,27 +22,27 @@ class InversionRelationDao
 
     public function deleteById($id){
 
-        $inversion = InversorRelation::where('id', $id)->delete();
+        $inversion = InversionRelation::where('id', $id)->delete();
 
         return $inversion;
 
     }
 
     public function getByOwnerId($owner_id){
-        $inversion = InversorRelation::where('owner_id', $owner_id)->get();
+        $inversion = InversionRelation::where('owner_id', $owner_id)->get();
 
         return $inversion;
     }
 
     public function getByInversorId($inversor_id){
-        $inversion = InversorRelation::where('inversor_id', $inversor_id)->get();
+        $inversion = InversionRelation::where('inversor_id', $inversor_id)->get();
 
         return $inversion;
     }
 
     public function updateById($id, $owner_id, $inversor_id, $percent)
     {
-        $inversion = InversorRelation::where('id', $id)->update([
+        $inversion = InversionRelation::where('id', $id)->update([
             "owner_id"=> $owner_id,
             "inversor_id"=> $inversor_id,
             "percent"=> $parent

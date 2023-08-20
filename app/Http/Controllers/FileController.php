@@ -25,8 +25,9 @@ class FileController extends Controller
         $description = $request->description;
         $parent = $request->$parent;
         $path = $request->path;
+        $startup_id = $request->startup_id;
 
-        $file = $this->fileService->createFile($user_id, $name, $parent, $path);
+        $file = $this->fileService->createFile($user_id, $name, $parent, $path, $startup_id);
         return response()->json([
                 'message' => "created file",
                 'response' => $file,

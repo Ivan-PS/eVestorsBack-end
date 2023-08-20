@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class FolderDao
 {
-    public function create($user_id, $name, $description, $parent, $path)
+    public function create($user_id, $name, $description, $parent, $path, $startup_id)
     {
 
         $folder = Folder::create([
@@ -16,6 +16,7 @@ class FolderDao
             "description"=> $description,
             "parent"=> $parent,
             "path"=> "/",
+            'startup_id' => $startup_id
         ]);
 
         return $folder;
@@ -28,9 +29,10 @@ class FolderDao
         return $folder;
     }
 
-    public function getByParent($parent)
+    public function getByParent($parent, $startup_id)
     {
-        $folder = Folder::where('parent', $parent)->get();
+        $folder = Folder::where('parent', $parent)->where('startup_id', $startup_id)->get();
+        Log::debug("STARTUP ID ON GET FOLDER: ". strval($startup_id));
         return $folder;
     }
 

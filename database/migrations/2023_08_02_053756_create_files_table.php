@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('path');
             $table->integer('parent');
+            $table->integer('startup_id');
             $table->timestamps();
         });
     }

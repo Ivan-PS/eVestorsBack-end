@@ -8,6 +8,7 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\InversionRelationController;
 use App\Http\Controllers\PermisionController;
+use App\Http\Controllers\StartupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,23 @@ Route::group(['prefix' => '/permision'], function () {
     Route::post('/getIfPermisionUserFolder', [PermisionController::class, 'getIfPermisionUserFolder']);
     Route::post('/getIfPermisionUserFile', [PermisionController::class, 'getIfPermisionUserFile']);
     Route::post('/deleteById', [PermisionController::class, 'deleteById']);
+
+    }
+    
+);
+Route::group(['prefix' => '/startUp'], function () {
+
+    Route::post('/create', [StartupController::class, 'create']);;
+    Route::post('/getAllowed', [StartupController::class, 'getByIdUser']);;
+
+    }
+
+);
+
+Route::group(['prefix' => '/inversor'], function () {
+
+    Route::post('/create', [StartupController::class, 'createInversor']);;
+    Route::post('/getAllowed', [StartupController::class, 'getInversorsAllowedByStartUpId']);;
 
     }
 );

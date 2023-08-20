@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('folders', function (Blueprint $table) {
+        Schema::create('startup_permisions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('path');
-            $table->integer('parent');
-            $table->integer('startup_id');
             $table->timestamps();
+            $table->integer('user_id');
+            $table->integer('startup_id');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('folders');
+        Schema::dropIfExists('startup_permisions');
     }
 };

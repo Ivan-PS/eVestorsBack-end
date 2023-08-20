@@ -25,10 +25,11 @@ class FolderController extends Controller
         $description = $request->description;
         $parent = $request->parent;
         $path = $request->path;
+        $startup_id = $request->startup_id;
         Log::debug(strval($path));
         
 
-        $folder = $this->folderService->createFolder($user_id, $description, $name, $parent, $path);
+        $folder = $this->folderService->createFolder($user_id, $description, $name, $parent, $path, $startup_id);
         return response()->json([
                 'message' => "created folder",
                 'response' => $folder,
@@ -53,8 +54,9 @@ class FolderController extends Controller
     {
 
         $parent= $request->$parent;
+        $parent= $request->$startup_id;
 
-        $folder = $this->folderService->getByParent($parent);
+        $folder = $this->folderService->getByParent($parent, $startup_id);
         return response()->json([
                 'message' => "getBy parent folder",
                 'response' => $folder,
@@ -78,7 +80,12 @@ class FolderController extends Controller
     public function getFoldersByIdUserWithPermisions(Request $request){
         $parent = $request->parent;
         $user_id = $request->idUser;
-        return $this->folderService->getFoldersByIdUserWithPermisions($user_id, $parent);
+        $startup_id = $request->startup_id;
+        $folders = $this->folderService->getFoldersByIdUserWithPermisions($user_id, $parent, $startup_id);
+        return response()->json([
+            'message' => "get folder with permision",
+            'response' => $folders,
+        ], 200);
     }
     
 }

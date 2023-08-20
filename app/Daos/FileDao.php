@@ -16,6 +16,7 @@ class FileDao
             "description"=> $description,
             "parent"=> $parent,
             "path"=> $path,
+            "startup_id"=>$startup_id
         ]);
 
         return $file;

@@ -14,8 +14,8 @@ class FileService
         $this->fileDao = $fileDao;
     }
 
-    public function createFile($user_id, $name, $parent, $path)  {
-        return $this->fileDao->create($user_id, $name, $parent, $path);
+    public function createFile($user_id, $name, $parent, $path, $startup_id)  {
+        return $this->fileDao->create($user_id, $name, $parent, $path, $startup_id);
     }
 
     public function getById($id){
