@@ -59,7 +59,27 @@ class StartupController extends Controller
                     'response' => $inversor,
                 ], 200);
         }
-    
+
+        public function createAccessCode(Request $request){
+            
+            $startup_id = $request->startup_id;
+
+            $inversor = $this->startupService->generateAccessCode($startup_id);
+            return response()->json([
+                    'message' => "get inversors",
+                    'response' => $inversor,
+                ], 200);
+        }
+
+        public function getAccessCodeByStartUpId(Request $request){
+            $startup_id = $request->startup_id;
+            $accessCode = $this->startupService->getAccessCodeByStartUpId($startup_id);
+
+            return response()->json([
+                'message' => "get accessCode",
+                'response' => $accessCode,
+            ], 200);
+        }
     
 
 }

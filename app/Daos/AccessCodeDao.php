@@ -25,4 +25,11 @@ class AccessCodeDao
         return $accessCode;
     }
 
+    public function getByStartUpId($startup_id)
+    {
+
+        $accessCode = AccessCode::where('startup_id', $startup_id)->first();
+        return $accessCode;
+    }
+
 }

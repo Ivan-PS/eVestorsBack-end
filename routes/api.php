@@ -85,3 +85,10 @@ Route::group(['prefix' => '/inversor'], function () {
 
     }
 );
+
+Route::group(['prefix' => '/accesssCode'], function () {
+    Route::post('/getByStartUpId', [StartupController::class, 'getAccessCodeByStartUpId']);;
+    Route::post('/create', [StartupController::class, 'createAccessCode']);;
+
+    }
+);

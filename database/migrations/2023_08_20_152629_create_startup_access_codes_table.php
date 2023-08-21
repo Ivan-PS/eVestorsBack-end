@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('startup_access_codes', function (Blueprint $table) {
+        Schema::create('access_codes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->integer('accessCode');
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('startup_access_codes');
+        Schema::dropIfExists('access_codes');
     }
 };

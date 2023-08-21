@@ -44,6 +44,7 @@ class StartupService
         return $startUpsAllowed;
     }
 
+
     public function checkAndUseIfValid($user_id, $startup_id, $accessCode){
 
         $accessCodeDB = $this->accessCodeDao->getByAccessCode($accessCode);
@@ -75,6 +76,15 @@ class StartupService
             array_push($inversiorsAllowed, $user);
         }
         return $inversiorsAllowed;
+    }
+
+    public function generateAccessCode($startup_id){
+        $accesCode = rand(1000,9999);
+        return $this->accessCodeDao->create($startup_id,$accesCode);
+    }
+
+    public function getAccessCodeByStartUpId($startup_id){
+        return $this->accessCodeDao->getByStartUpId($startup_id);
     }
 
 }
