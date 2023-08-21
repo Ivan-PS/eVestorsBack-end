@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class StartupDao
 {
-    public function create($owner_id, $description, $name)
+    public function create($owner_id, $name, $description)
     {
 
         $startup = Startup::create([
