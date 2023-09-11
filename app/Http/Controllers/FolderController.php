@@ -29,7 +29,7 @@ class FolderController extends Controller
         Log::debug(strval($path));
         
 
-        $folder = $this->folderService->createFolder($user_id, $description, $name, $parent, $path, $startup_id);
+        $folder = $this->folderService->createFolder($user_id, $name, $description, $parent, $path, $startup_id);
         return response()->json([
                 'message' => "created folder",
                 'response' => $folder,
