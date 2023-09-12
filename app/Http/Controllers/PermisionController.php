@@ -13,13 +13,14 @@ class PermisionController extends Controller
 
         $user_id = $request->user_id;
         $item_id = $request->item_id;
+        $type = $request->type;
 
         $permisionFolder = Permision::create([
             "user_id"=> $user_id,
             "item_id"=> $item_id,
             "type" => $type
         ]);
- 
+
         return response()->json([
                 'message' => "created permisionFolder",
                 'response' => $permisionFolder,
@@ -34,7 +35,7 @@ class PermisionController extends Controller
 
         $folder = Permision::where('user_id', $user_id)->where('item_id', $item_id)->where('type', 1)->get();
 
- 
+
         return response()->json([
                 'message' => "get permisionFolder",
                 'response' => count($folder) > 0,
@@ -49,7 +50,7 @@ class PermisionController extends Controller
 
         $folder = Permision::where('user_id', $user_id)->where('item_id', $item_id)->where('type', 2)->get();
 
- 
+
         return response()->json([
                 'message' => "get permisionFolder",
                 'response' => count($folder) > 0,
@@ -58,19 +59,19 @@ class PermisionController extends Controller
     public function deleteById(Request $request)
     {
 
-        $user_id = $request->user_id;
-        $item_id = $request->item_id;
+        $id = $request->id;
+
 
         $folder = Permision::where('id', $id)->delete();
 
- 
+
         return response()->json([
                 'message' => "delete permisionFolder",
                 'response' => $folder,
             ], 200);
     }
 
-    
+
 
 
 }

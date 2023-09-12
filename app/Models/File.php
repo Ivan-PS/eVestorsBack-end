@@ -9,9 +9,9 @@ class File extends Model
 {
     protected $fillable = [
         'name',
-        'description',
-        'parent',
-        'description',
+        'user_id',
+        'startup_id',
+        'folder_id',
         'path'
     ];
 }

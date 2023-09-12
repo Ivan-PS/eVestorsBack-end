@@ -44,6 +44,11 @@ class PermisionDao
         return $permision;
     }
 
-    
+    public function getPermisionByItemAndType($item_id, $type){
+        $permision = Permision::where('item_id', $item_id)->where("type", $type)->get();
+        return $permision;
+    }
+
+
 
 }

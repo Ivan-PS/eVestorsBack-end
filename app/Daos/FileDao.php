@@ -7,14 +7,13 @@ use Illuminate\Support\Facades\Log;
 
 class FileDao
 {
-    public function create($user_id, $name, $parent, $path)
+    public function create($user_id, $folder_id, $startup_id, $path, $name)
     {
 
         $file = File::create([
             "user_id" =>$user_id,
             "name"=> $name,
-            "description"=> $description,
-            "parent"=> $parent,
+            "folder_id"=> $folder_id,
             "path"=> $path,
             "startup_id"=>$startup_id
         ]);
@@ -25,15 +24,15 @@ class FileDao
     public function getById($id)
     {
 
-        $file = File::where('id', $id)->get();
+        $file = File::where('id', $id)->first();
         return $file;
     }
 
-    public function getByParent($parent)
+    public function getByParent($parent, $startup_id)
     {
 
 
-        $file = File::where('parent', $parent)->get();
+        $file = File::where('folder_id', $parent)->where('startup_id', $startup_id)->get();
         return $file;
 
     }

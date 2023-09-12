@@ -56,7 +56,11 @@ Route::group(['prefix' => '/file'], function () {
     Route::post('/getById', [FileController::class, 'getById']);
     Route::post('/getByParent', [FileController::class, 'getByParent']);
     Route::post('/deleteById', [FileController::class, 'deleteById']);
-    }
+    Route::post('/getAllowed', [FileController::class, 'getFilesByIdUserWithPermisions']);
+    Route::post('/download', [FileController::class, 'downloadFileById']);
+
+
+}
 );
 
 Route::group(['prefix' => '/permision'], function () {

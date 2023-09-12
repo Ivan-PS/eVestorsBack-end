@@ -20,61 +20,62 @@ class FolderController extends Controller
     }
     public function create(Request $request)
     {
+        Log::debug("CREATE FOLDER");
         $user_id = $request->idUser;
         $name = $request->name;
         $description = $request->description;
         $parent = $request->parent;
         $path = $request->path;
         $startup_id = $request->startup_id;
-        Log::debug(strval($path));
-        
+
+
 
         $folder = $this->folderService->createFolder($user_id, $name, $description, $parent, $path, $startup_id);
         return response()->json([
                 'message' => "created folder",
                 'response' => $folder,
             ], 200);
-    
+
     }
 
     public function getById(Request $request)
     {
 
-        $id = $request->$id;
+        $id = $request->id;
 
         $folder = $this->folderService->getById($id);
         return response()->json([
                 'message' => "getById folder",
                 'response' => $folder,
             ], 200);
-    
+
     }
 
     public function getByParent(Request $request)
     {
 
-        $parent= $request->$parent;
-        $parent= $request->$startup_id;
+        $parent= $request->parent;
+        $startup_id = $request->startup_id;
 
         $folder = $this->folderService->getByParent($parent, $startup_id);
         return response()->json([
                 'message' => "getBy parent folder",
                 'response' => $folder,
             ], 200);
-    
+
     }
 
     public function deleteById(Request $request)
     {
 
-        $id = $request->$id;
+        $id = $request->id;
 
         $folder = $this->folderService->deleteById($id);
         return response()->json([
                 'message' => "delete folder",
                 'response' => $folder,
             ], 200);
-    
+
     }
 
     public function getFoldersByIdUserWithPermisions(Request $request){
@@ -87,5 +88,5 @@ class FolderController extends Controller
             'response' => $folders,
         ], 200);
     }
-    
+
 }
