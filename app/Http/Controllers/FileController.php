@@ -35,18 +35,28 @@ class FileController extends Controller
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
         $path = "";
+        Log::debug("Startup_id: ".str($startup_id));
         if ($startup_id == 0){
-            $path = "User/".$user_id."/".$folder_name;
+            $path = "home/ubuntu/User/".$user_id."/".$folder_name;
         }
         else{
-            $path = "startUp/".$startup_id."/".$folder_name;
+            $path = "home/ubuntu/StartUp/".$startup_id."/".$folder_name;
+        }
+        Log::debug("Startup_id path: ".str($path));
+
+
+        // $uploadPath = $uploadDir . basename($file["name"]);
+
+        // $this->folderService->createFolderOnServer($user_id, $folder_name, $startup_id);
+
+        // $filePath = public_path($path);
+        // $file->move($filePath, $fileName);
+        $fileCreated = $this->fileService->createFile($user_id, $folder_id, $startup_id, $path."/".$fileName, $fileName);
+        if($startup_id != 0){
+            $this->fileService->createPermisionsToAllUsersOnStartUp($startup_id, $fileCreated->id);
+
         }
 
-        $filePath = public_path($path);
-        $file->move($filePath, $fileName);
-
-        $this->folderService->createFolderOnServer($user_id, $folder_name, $startup_id );
-       $fileCreated = $this->fileService->createFile($user_id, $folder_id, $startup_id, $path."/".$fileName, $fileName);
         return response()->json([
                 'message' => "created file",
                 'response' => $fileCreated,
@@ -120,6 +130,10 @@ class FileController extends Controller
         $fileSaved = public_path($file->path);
         return response()->download($fileSaved);
     }
+
+
+
+
 
 
 }

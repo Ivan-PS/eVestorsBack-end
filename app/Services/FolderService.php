@@ -81,4 +81,11 @@ class FolderService
         return $folder;
     }
 
+    public function createPermisionsToAllFoldersFromStartup($user_id, $startup_id){
+        $folders = $this->folderDao->getFoldersByStartUpId($startup_id);
+        foreach ($folders as $folder){
+            $this->permisionDao-create($user_id, $folder->id, 1);
+        }
+    }
+
 }

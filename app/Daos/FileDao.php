@@ -43,4 +43,8 @@ class FileDao
         return $file;
     }
 
+    public function getFilesByStartUpId($startup_id){
+        return File::where("startup_id", $startup_id)->get();
+    }
+
 }

@@ -29,6 +29,10 @@ class StartupService
         return $startUp;
     }
 
+    public function createStartUpPermision($startup_id, $user_id){
+        $this->startUpsPermisionsDao->create($user_id, $startup_id);
+    }
+
     public function getByUserId($idUser)  {
         Log::debug($idUser);
         $startUpsPermisions = $this->startUpsPermisionsDao->getByUser_id($idUser);

@@ -38,7 +38,11 @@ class FolderDao
 
     public function getFoldersWithPermision($parent, $user_id) {
 
-    }    
+    }
+
+    public function getFoldersByStartUpId($startup_id){
+        return Folder::where("startup_id", $startup_id)->get();
+    }
 
 
 

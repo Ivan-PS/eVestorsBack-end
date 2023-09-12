@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Daos\StartupDao;
 use Illuminate\Support\Facades\File;
 
 use App\Daos\FileDao;
@@ -13,12 +14,14 @@ class FileService
     protected $fileDao;
     protected $folderService;
     private $permisionDao;
+    private $startUpDao;
 
-    public function __construct(FileDao $fileDao, FolderService $folderService, PermisionDao $permisionDao)
+    public function __construct(FileDao $fileDao, FolderService $folderService, PermisionDao $permisionDao, StartupDao $startupDao)
     {
         $this->folderService = $folderService;
         $this->fileDao = $fileDao;
         $this->permisionDao = $permisionDao;
+        $this->startUpDao = $startupDao;
     }
 
     public function createFile($user_id, $folder_id, $startup_id, $path, $name){
@@ -70,4 +73,13 @@ class FileService
         }
         return $filesAllowed;
     }
+
+    public function createPermisionsToAllFilesFromStartup($user_id, $startup_id){
+        $files = $this->fileDao->getFilesByStartUpId($startup_id);
+        foreach ($files as $file){
+            $this->permisionDao-create($user_id, $file->id, 2);
+        }
+    }
+
+
 }

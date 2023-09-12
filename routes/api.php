@@ -23,6 +23,7 @@ use App\Http\Controllers\StartupController;
 Route::group(['prefix' => '/user'], function () {
 
     Route::post('/create', [UserManagmentController::class, 'register']);
+    Route::post('/createFounder', [UserManagmentController::class, 'createFounder']);
     Route::post('/login', [UserManagmentController::class, 'login']);
     Route::post('/getById', [UserManagmentController::class, 'getById']);
 

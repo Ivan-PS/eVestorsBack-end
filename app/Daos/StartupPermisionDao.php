@@ -23,7 +23,7 @@ class StartupPermisionDao
 
         $startup_permision = StartupPermision::where('id', $id)->delete();
 
-        return $stastartup_permisionrtup;
+        return $startup_permision;
 
     }
 
