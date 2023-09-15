@@ -21,10 +21,10 @@ class FolderService
     }
 
     public function createFolder($user_id, $name, $descripton, $parent, $path, $startup_id)  {
-       if($this->createFolderOnServer($user_id, $name, $startup_id)){
-           $folder =  $this->folderDao->create($user_id, $name, $descripton, $parent, $path, $startup_id);
-           $this->permisionDao->create($user_id, $folder->id, 1);
-       }
+       $this->createFolderOnServer($user_id, $name, $startup_id);
+       $folder =  $this->folderDao->create($user_id, $name, $descripton, $parent, $path, $startup_id);
+       $this->permisionDao->create($user_id, $folder->id, 1);
+
 
         return "Error al crear el fichero";
     }
