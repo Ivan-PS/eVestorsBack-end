@@ -3,6 +3,8 @@
 namespace App\Daos;
 
 use App\Models\User;
+use App\Models\InversionPermision;
+use App\Models\StartupPermision;
 use Illuminate\Support\Facades\Log;
 
 class UserDao
@@ -37,9 +39,31 @@ class UserDao
     {
 
 
-        $user = User::where('id', $id)->get();
+        $user = User::where('id', $id)->first();
         return $user;
 
+    }
+
+    public function getByStartUpIdFounders($startup_id){
+        $permisions = StartupPermision::where('startup_id', $startup_id)->get();
+        $users = [];
+
+        foreach ($permisions as $permision){
+            $user = $this->getById($permision["user_id"]);
+            array_push($users, $user);
+        }
+        return $users;
+    }
+
+    public function getByStartUpIdInversors($startup_id){
+        $inversions = InversionPermision::where('startup_id', $startup_id)->get();
+        $users = [];
+
+        foreach ($inversions as $inversion){
+            $user = $this->getById($inversion["user_id"]);
+            array_push($users, $user);
+        }
+        return $users;
     }
 
 }

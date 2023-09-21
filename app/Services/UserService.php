@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Daos\UserDao;
+use http\Env\Request;
 use Illuminate\Support\Facades\Log;
 
 class UserService
@@ -48,6 +49,13 @@ class UserService
         }
 
         return $String;
+    }
+
+    public function getUsersInStartUpFounders($startup_id){
+        return $this->userDao->getByStartUpIdFounders($startup_id);
+    }
+    public function getUsersInStartUpInversors($startup_id){
+        return $this->userDao->getByStartUpIdInversors($startup_id);
     }
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessagesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +27,17 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/createFounder', [UserManagmentController::class, 'createFounder']);
     Route::post('/login', [UserManagmentController::class, 'login']);
     Route::post('/getById', [UserManagmentController::class, 'getById']);
+    Route::post('/getRelatedUsers', [UserManagmentController::class, 'getRelatedUsers']);
 
     }
+);
+
+Route::group(['prefix' => '/message'], function () {
+
+    Route::post('/create', [MessagesController::class, 'createMessage']);
+    Route::post('/get', [MessagesController::class, 'getMessage']);
+
+}
 );
 
 Route::group(['prefix' => '/folder'], function () {

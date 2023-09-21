@@ -122,4 +122,35 @@ class UserManagmentController extends Controller
     }
 
 
+    public function getRelatedUsers(Request $request){
+        $users = [];
+        $user_id = $request->idUser;
+
+        $startups = $this->startUpService->getByUserId($user_id);
+
+        foreach($startups as $startup){
+            $byStartups = $this->userService->getUsersInStartUpFounders($startup->id);
+            $byInversions = $this->userService->getUsersInStartUpInversors($startup->id);
+            foreach ($byStartups as $byStartup){
+                if($byStartup->id != $user_id){
+                    array_push($users, $byStartup);
+                }
+            }
+            foreach ($byInversions as $byInversion){
+                if($byInversion->id != $user_id){
+                    array_push($users, $byInversion);
+                }
+            }
+        }
+
+
+
+
+        return response()->json([
+            'message' => "getRelatedUsers",
+            'response' => $users,
+        ], 200);
+    }
+
+
 }
