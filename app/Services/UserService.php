@@ -52,6 +52,8 @@ class UserService
     }
 
     public function getUsersInStartUpFounders($startup_id){
+        Log::info("founders");
+        // Log::debug(implode(",",$this->userDao->getByStartUpIdFounders($startup_id)));
         return $this->userDao->getByStartUpIdFounders($startup_id);
     }
     public function getUsersInStartUpInversors($startup_id){

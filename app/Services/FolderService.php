@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Daos\FolderDao;
 use App\Daos\PermisionDao;
+use App\Models\Permision;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\File;
@@ -23,10 +24,8 @@ class FolderService
     public function createFolder($user_id, $name, $descripton, $parent, $path, $startup_id)  {
        $this->createFolderOnServer($user_id, $name, $startup_id);
        $folder =  $this->folderDao->create($user_id, $name, $descripton, $parent, $path, $startup_id);
-       $this->permisionDao->create($user_id, $folder->id, 1);
+       return $this->permisionDao->create($user_id, $folder->id, 1);
 
-
-        return "Error al crear el fichero";
     }
 
     public function createFolderOnServer($user_id, $name, $startup_id){
@@ -34,7 +33,7 @@ class FolderService
                 $pathStr = "User/".strval($user_id);
             }
             else{
-                $pathStr = "User/".strval($startup_id);
+                $pathStr = "StartUp/".strval($startup_id);
             }
             $pathStr = $pathStr."/".strval($name);
 
@@ -63,7 +62,7 @@ class FolderService
         $foldersAllowed = [];
 
         Log::debug($folders);
-        Log::debug("id user: ".strval($idUser));
+        Log::debug("id user: ".str($idUser));
         foreach ($folders as  $folder) {
             $permisionsInFolder = $this->permisionDao->getPermisionByItemAndType($folder->id, 1);
             foreach ($permisionsInFolder as $permisionInFolder) {
@@ -77,15 +76,20 @@ class FolderService
 
     public function deleteById($id)
     {
-        $folder = $this->folderDao->deleteById;
+        $folder = $this->folderDao->deleteById($id);
         return $folder;
     }
 
     public function createPermisionsToAllFoldersFromStartup($user_id, $startup_id){
         $folders = $this->folderDao->getFoldersByStartUpId($startup_id);
         foreach ($folders as $folder){
-            $this->permisionDao-create($user_id, $folder->id, 1);
+            return Permision::create([
+                "user_id"=> $user_id,
+                "item_id"=> $folder->id,
+                "type" => 1
+            ]);
         }
+        return $folders;
     }
 
 }

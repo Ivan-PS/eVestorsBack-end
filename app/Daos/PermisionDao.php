@@ -10,13 +10,21 @@ class PermisionDao
     public function create($user_id, $item_id, $type)
     {
 
-        $permision = Permision::create([
+        return Permision::create([
             "user_id"=> $user_id,
             "item_id"=> $item_id,
             "type" => $type
         ]);
+    }
 
-        return $permision;
+    public function createPermision($user_id, $item_id, $type)
+    {
+
+        return Permision::create([
+            "user_id"=> $user_id,
+            "item_id"=> $item_id,
+            "type" => $type
+        ]);
     }
 
     public function getIfPermisionUserFolder($user_id, $item_id)

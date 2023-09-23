@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Daos\PermisionDao;
 use App\Http\Controllers\Controller;
+use App\Services\StartupService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Log;
 use App\Services\FolderService;
+use function Webmozart\Assert\Tests\StaticAnalysis\length;
 
 
 class FolderController extends Controller
 {
 
     protected $folderService;
-
-    public function __construct(FolderService $folderService)
+    protected  $inversionPermisionService;
+    protected $startUpService;
+    protected $userService;
+    public function __construct(FolderService $folderService, PermisionDao $inversionPermisionService, StartupService $startupService, UserService $userService)
     {
         $this->folderService = $folderService;
+        $this->inversionPermisionService = $inversionPermisionService;
+        $this->startUpService = $startupService;
+        $this->userService = $userService;
     }
     public function create(Request $request)
     {
@@ -31,6 +40,26 @@ class FolderController extends Controller
 
 
         $folder = $this->folderService->createFolder($user_id, $name, $description, $parent, $path, $startup_id);
+        if ($startup_id != 0){
+
+            $byStartups = $this->userService->getUsersInStartUpFounders($startup_id);
+            $byInversions = $this->userService->getUsersInStartUpInversors($startup_id);
+            Log::info(str(count($byStartups)));
+            Log::info(implode(" startup :, ", $byStartups));
+            Log::info(implode(', ', $byInversions));
+            foreach ($byStartups as $byStartup){
+                Log::info($byStartup->id != $user_id);
+                if($byStartup->id != $user_id){
+                    $this->inversionPermisionService->create($byStartup->id, $folder->id, 1);
+                }
+            }
+            foreach ($byInversions as $byInversion){
+                if($byInversion->id != $user_id){
+                    $this->inversionPermisionService->create($byInversion->id, $folder->id, 1);
+                }
+            }
+        }
+
         return response()->json([
                 'message' => "created folder",
                 'response' => $folder,

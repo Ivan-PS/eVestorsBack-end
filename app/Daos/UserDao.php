@@ -66,4 +66,13 @@ class UserDao
         return $users;
     }
 
+    public function updateFbToken($user_id, $tokenFb)
+    {
+        $user = User::where('id', $user_id)
+            ->update([
+                'fbToken' => $tokenFb
+            ]);
+        return $user;
+    }
+
 }

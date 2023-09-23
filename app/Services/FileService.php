@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Daos\StartupDao;
+use App\Models\Permision;
 use Illuminate\Support\Facades\File;
 
 use App\Daos\FileDao;
@@ -28,6 +29,7 @@ class FileService
 
         $file = $this->fileDao->create($user_id, $folder_id, $startup_id, $path, $name);
         $this->permisionDao->create($user_id, $file->id, 2);
+        return $file;
 
     }
 
@@ -77,7 +79,11 @@ class FileService
     public function createPermisionsToAllFilesFromStartup($user_id, $startup_id){
         $files = $this->fileDao->getFilesByStartUpId($startup_id);
         foreach ($files as $file){
-            $this->permisionDao-create($user_id, $file->id, 2);
+            return Permision::create([
+                "user_id"=> $user_id,
+                "item_id"=> $file->id,
+                "type" => 2
+            ]);
         }
     }
 

@@ -72,6 +72,8 @@ class UserManagmentController extends Controller
         $user = $this->userService->registerUser($name, $password, $firstName, $secondName, $email, $type);
         $this->startUpService->createStartUpPermision($startup_id, $user->id);
         $this->folderService->createPermisionsToAllFoldersFromStartup($user->id, $startup_id);
+
+
         $this->fileService->createPermisionsToAllFilesFromStartup($user->id, $startup_id);
 
         Log::debug("USER CREATED: " . strval($user));

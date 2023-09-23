@@ -55,4 +55,18 @@ class MessagesController extends Controller
         ], 200);
 
     }
+
+    public function sendFbMessage(Request $request){
+        $token = $request->token;
+        $this->messageService->sendFbMessage($token, "message");
+    }
+    public function updateFbToken(Request $request){
+        $token = $request->token;
+        $user_id = $request->userId;
+        $response = $this->messageService->updateFbToken($user_id, $token);
+        return response()->json([
+            'message' => "update fb token",
+            'response' => $response,
+        ], 200);
+    }
 }

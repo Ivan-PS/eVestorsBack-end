@@ -6,6 +6,7 @@ use App\Daos\StartupDao;
 use App\Daos\StartupPermisionDao;
 use App\Daos\AccessCodeDao;
 use App\Daos\InversionPermisionDao;
+
 use Illuminate\Support\Facades\Log;
 
 class StartupService
@@ -67,7 +68,18 @@ class StartupService
     }
 
     public function getInversorsAllowedByStartUpId($startup_id){
-        $inversionPermisions = $this->inversionPermisionsDao->getByStartup_id($startup_id);
+        $inversionPermisions = $this->inversionPermisionDao->getByStartup_id($startup_id);
+        $inversiorsAllowed = [];
+
+        foreach ($inversionPermisions as  $inversionPermision) {
+            $user = $this->userDao->getById($inversionPermision->user_id);
+            array_push($inversiorsAllowed, $user);
+        }
+        return $inversiorsAllowed;
+    }
+
+    public function getFoundersAllowedByStartUpId($startup_id){
+        $inversionPermisions = $this->startUpsPermisionsDao->getByStartup_id($startup_id);
         $inversiorsAllowed = [];
 
         foreach ($inversionPermisions as  $inversionPermision) {

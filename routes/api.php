@@ -10,6 +10,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\InversionRelationController;
 use App\Http\Controllers\PermisionController;
 use App\Http\Controllers\StartupController;
+use App\Models\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/login', [UserManagmentController::class, 'login']);
     Route::post('/getById', [UserManagmentController::class, 'getById']);
     Route::post('/getRelatedUsers', [UserManagmentController::class, 'getRelatedUsers']);
+    Route::post('/updateFbToken', [MessagesController::class, 'updateFbToken']);
 
     }
 );
@@ -36,6 +38,7 @@ Route::group(['prefix' => '/message'], function () {
 
     Route::post('/create', [MessagesController::class, 'createMessage']);
     Route::post('/get', [MessagesController::class, 'getMessage']);
+    Route::post('/sendFb', [MessagesController::class, 'sendFbMessage']);
 
 }
 );
@@ -72,6 +75,8 @@ Route::group(['prefix' => '/file'], function () {
 
 
 }
+
+
 );
 
 Route::group(['prefix' => '/permision'], function () {
@@ -88,8 +93,10 @@ Route::group(['prefix' => '/startUp'], function () {
 
     Route::post('/create', [StartupController::class, 'create']);
     Route::post('/getAllowed', [StartupController::class, 'getByIdUser']);
+    Route::post('/getFounders', [StartupController::class, 'getFounders']);
+    Route::post('/getInversors', [StartupController::class, 'getInversors']);
 
-    }
+}
 
 );
 
@@ -109,3 +116,15 @@ Route::group(['prefix' => '/accesssCode'], function () {
 
     }
 );
+
+/*Route::get('/getFile/{file_id}', function ($file_id) {
+    $file = File::where("id", $file_id)->get();*/
+    // $path = "app/public/".$file->path;
+    /*if (!file_exists()) {
+        abort(404);
+    }*/
+
+    // return response()->file(public_path($file->path));
+/*})*/
+
+Route::get('/getFile/{file_id}', [FileController::class, 'getFileView'])->name('file.download');

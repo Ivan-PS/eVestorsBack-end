@@ -99,6 +99,27 @@ class StartupController extends Controller
             ], 200);
 
         }
+        public function getFounders(Request $request){
+        Log::debug("GET FOUNDERS");
+            $startup_id = $request->startup_id;
+            $response = $this->startupService->getFoundersAllowedByStartUpId($startup_id);
+            return response()->json([
+                'message' => "get Inversors",
+                'response' => $response,
+            ], 200);
+
+        }
+        public function getInversors(Request $request){
+            Log::debug("GET INVERSORS");
+            $startup_id = $request->startup_id;
+            $response = $this->startupService->getInversorsAllowedByStartUpId($startup_id);
+
+            return response()->json([
+                'message' => "get Inversors",
+                'response' => $response,
+            ], 200);
+
+        }
 
 
 }
