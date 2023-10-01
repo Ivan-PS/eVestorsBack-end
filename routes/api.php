@@ -30,6 +30,7 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/getById', [UserManagmentController::class, 'getById']);
     Route::post('/getRelatedUsers', [UserManagmentController::class, 'getRelatedUsers']);
     Route::post('/updateFbToken', [MessagesController::class, 'updateFbToken']);
+    Route::post('/updateById', [UserManagmentController::class, 'updateById']);
 
     }
 );

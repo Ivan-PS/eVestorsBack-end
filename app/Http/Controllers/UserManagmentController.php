@@ -154,5 +154,18 @@ class UserManagmentController extends Controller
         ], 200);
     }
 
+    public function updateById(Request $request){
+        $user_id = $request->user_id;
+        $email = $request->email;
+        $name = $request->name;
+        $firstName = $request->firstName;
+        $secondName = $request->secondName;
+        $user = $this->userService->updateById($user_id, $email, $name, $firstName, $secondName);
+        return response()->json([
+            'message' => "update user",
+            'response' => $user,
+        ], 200);
+    }
+
 
 }

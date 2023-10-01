@@ -23,7 +23,7 @@ class MessageService
         $fromUser = $this->userDao->getById($from_id);
         Log::info("SEND TO USER: ".strval($toUser));
         if($toUser->fbToken != ""){
-            $this->sendFbMessage($fromUser, $toUser->fbToken ,$message, "message");
+            $this->sendFbMessage($fromUser, $toUser, $toUser->fbToken ,$message, "message");
         }
         return $this->messageDao->create($from_id, $to_id, $message);
     }
@@ -32,8 +32,16 @@ class MessageService
         return $this->messageDao->getByFromIdAndToId($from_id, $to_id);
     }
 
-    public function sendFbMessage($toUser, $token, $message, $type)
+    public function sendFbMessage($toUser, $fromUser, $token, $message, $type)
     {
+
+        $notificationTitle = "";
+        $notificationBody = "";
+        if($type == "message"){
+            $notificationTitle = "Nuevo mensaje de: ".$fromUser->name;
+            $notificationBody = $message;
+        }
+
         Log::info("send message token: ".$token);
         $messageToSend = [];
         $messageToSend["type"] = $type;
@@ -46,8 +54,8 @@ class MessageService
             'content-type: application/json'
         ];
         $notification = [
-            'title' => "Notificacion de test",
-            'body' => $messageToSend
+            'title' => $notificationTitle,
+            'body' => $notificationBody
         ];
 
         $fcmNotification = [

@@ -75,4 +75,16 @@ class UserDao
         return $user;
     }
 
+    public function updateById($user_id, $email, $name, $firstName, $secondName)
+    {
+        $user = User::where('id', $user_id)
+            ->update([
+                'email' => $email,
+                "name" => $name, 
+                "firstName" => $firstName, 
+                "secondName" => $secondName
+            ]);
+        return $user;
+    }
+
 }

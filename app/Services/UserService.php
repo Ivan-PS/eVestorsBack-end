@@ -61,5 +61,9 @@ class UserService
     }
 
 
+    public function updateById($user_id, $email, $name, $firstName, $secondName){
+        return $this->userDao->updateById($user_id, $email, $name, $firstName, $secondName);
+    }
+
 
 }
