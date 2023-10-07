@@ -21,8 +21,7 @@ class StartupDao
     }
 
     public function getById($id){
-        $startup = Startup::where('id', $id)->first();
-        return $startup;
+        return Startup::where('id', $id)->first();
     }
     public function deleteById($id){
 
@@ -38,10 +37,9 @@ class StartupDao
         return $startup;
     }
 
-    public function updateById($id, $owner_id, $description, $name)
+    public function updateById($id, $name, $description)
     {
         $startup = Startup::where('id', $id)->update([
-            "owner_id"=> $owner_id,
             "name"=> $name,
             "description"=> $description
         ]);

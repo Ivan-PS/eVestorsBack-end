@@ -41,6 +41,31 @@ class StartupController extends Controller
                 ], 200);
         }
 
+    public function updateStartUpById(Request $request){
+        $startup_id = $request->startUpId;
+        $name = $request->name;
+        $description = $request->description;
+        $startups = $this->startupService->updateById($startup_id, $name, $description);
+
+        return response()->json([
+            'message' => "get startup",
+            'response' => $startups,
+        ], 200);
+
+    }
+
+    public function getStartUpById(Request $request)
+    {
+        $startup_id = $request->startUpId;
+
+
+        $startup = $this->startupService->getById($startup_id);
+        return response()->json([
+            'message' => "get by Id",
+            'response' => $startup,
+        ], 200);
+    }
+
         public function getInversorsAllowedByStartUpId(Request $request){
             $startup_id = $request->startup_id;
             $inversors = $this->startupService->getInversorsAllowedByStartUpId($startup_id);

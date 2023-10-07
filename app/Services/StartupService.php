@@ -7,6 +7,7 @@ use App\Daos\StartupPermisionDao;
 use App\Daos\AccessCodeDao;
 use App\Daos\InversionPermisionDao;
 
+use App\Daos\UserDao;
 use Illuminate\Support\Facades\Log;
 
 class StartupService
@@ -15,19 +16,31 @@ class StartupService
     protected $startUpsPermisionsDao;
     protected $accessCodeDao;
     protected $inversionPermisionDao;
+    protected $userDao;
 
-    public function __construct(StartupDao $startupDao, StartupPermisionDao $startUpsPermisionsDao, AccessCodeDao $accessCodeDao, InversionPermisionDao $inversionPermisionDao)
+    public function __construct(StartupDao $startupDao, StartupPermisionDao $startUpsPermisionsDao, AccessCodeDao $accessCodeDao, InversionPermisionDao $inversionPermisionDao, UserDao $userDao)
     {
         $this->startupDao = $startupDao;
         $this->startUpsPermisionsDao = $startUpsPermisionsDao;
         $this->accessCodeDao = $accessCodeDao;
         $this->inversionPermisionDao = $inversionPermisionDao;
+        $this->userDao = $userDao;
+    }
+
+    public function getById($id)
+    {
+        return $this->startupDao->getById($id);
     }
 
     public function createStartUp($user_id, $name, $description)  {
         $startUp = $this->startupDao->create($user_id, $name, $description);
         $this->startUpsPermisionsDao->create($user_id, $startUp->id);
         return $startUp;
+    }
+
+    public function updateById($startup_id, $name, $description)
+    {
+        return $this->startupDao->updateById($startup_id, $name, $description);
     }
 
     public function createStartUpPermision($startup_id, $user_id){

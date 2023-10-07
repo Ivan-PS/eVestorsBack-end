@@ -30,7 +30,7 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/getById', [UserManagmentController::class, 'getById']);
     Route::post('/getRelatedUsers', [UserManagmentController::class, 'getRelatedUsers']);
     Route::post('/updateFbToken', [MessagesController::class, 'updateFbToken']);
-    Route::post('/updateById', [UserManagmentController::class, 'updateById']);
+    Route::post('/updateId', [UserManagmentController::class, 'updateById']);
 
     }
 );
@@ -60,7 +60,7 @@ Route::group(['prefix' => '/inversion'], function () {
     Route::post('/getByOwnerId', [InversionRelationController::class, 'getByOwnerId']);
     Route::post('/getByInversorId', [InversionRelationController::class, 'getByInversorId']);
     Route::post('/deleteById', [InversionRelationController::class, 'deleteById']);
-    Route::post('/updateById', [InversionRelationController::class, 'updateById']);
+    Route::post('/updateId', [InversionRelationController::class, 'updateById']);
 
     }
 );
@@ -96,6 +96,8 @@ Route::group(['prefix' => '/startUp'], function () {
     Route::post('/getAllowed', [StartupController::class, 'getByIdUser']);
     Route::post('/getFounders', [StartupController::class, 'getFounders']);
     Route::post('/getInversors', [StartupController::class, 'getInversors']);
+    Route::post('/getById', [StartupController::class, 'getStartUpById']);
+    Route::post('/updateId', [StartupController::class, 'updateStartUpById']);
 
 }
 

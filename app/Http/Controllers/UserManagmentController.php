@@ -160,6 +160,13 @@ class UserManagmentController extends Controller
         $name = $request->name;
         $firstName = $request->firstName;
         $secondName = $request->secondName;
+        $checkUserEmail = $this->userService->getByEmail($email);
+        if ($checkUserEmail != null && $checkUserEmail->email != $email){
+            return response()->json([
+                'message' => "error",
+                'response' => 0,
+            ], 403);
+        }
         $user = $this->userService->updateById($user_id, $email, $name, $firstName, $secondName);
         return response()->json([
             'message' => "update user",
