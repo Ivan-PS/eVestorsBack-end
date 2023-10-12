@@ -10,6 +10,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\InversionRelationController;
 use App\Http\Controllers\PermisionController;
 use App\Http\Controllers\StartupController;
+use \App\Http\Controllers\NewsController;
 use App\Models\File;
 
 /*
@@ -118,6 +119,15 @@ Route::group(['prefix' => '/accesssCode'], function () {
 
 
     }
+);
+
+Route::group(['prefix' => '/news'], function () {
+    Route::post('/create', [NewsController::class, 'create']);
+    Route::post('/updateId', [NewsController::class, 'updateById']);
+    Route::post('/delete', [NewsController::class, 'deleteById']);
+    Route::post('/getAll', [NewsController::class, 'getAll']);
+    Route::post('/getById', [NewsController::class, 'getById']);
+}
 );
 
 /*Route::get('/getFile/{file_id}', function ($file_id) {
