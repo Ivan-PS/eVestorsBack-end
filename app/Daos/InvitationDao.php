@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Log;
 
 class InvitationDao
 {
-    public function createInvitation($from_id, $startup_id, $to_id)
+    public function createInvitation($from_id, $startup_id, $to_id, $type)
     {
         return Invitations::create([
-            "from_id" => $from_id,
+            "from_user" => $from_id,
             "startup_id" => $startup_id,
-            "to_id" => $to_id
+            "to_user" => $to_id,
+            "type" => $type
         ]);
     }
 
@@ -31,7 +32,7 @@ class InvitationDao
         return Invitations::where("id", $id)->delete();
     }
     public function  getByUserId($user_id){
-        return Invitations::where("to_id", $user_id)->get();
+        return Invitations::where("to_user", $user_id)->get();
     }
 
     public function  getByStartUpId($startup_id){

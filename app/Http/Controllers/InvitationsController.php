@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Services\InvitationService;
+use Illuminate\Support\Facades\Log;
 
 class InvitationsController extends Controller
 {
@@ -21,15 +22,26 @@ class InvitationsController extends Controller
         $from_id= $request->form_id;
         $startup_id = $request->startup_id;
         $to_email = $request->to_email;
-
+        $type = $request->type;
         $getUserByEmail = $this->userService->getByEmail($to_email);
 
+
+
         if ($getUserByEmail != null || $getUserByEmail != null){
+            if ($type == $getUserByEmail->type) {
+                return response()->json([
+                    'message' => "create invitation",
+                    'response' => $this->invitationService->createInvitation($from_id, $startup_id, $getUserByEmail->id, $type)
+                ], 200);
+            }
+
             return response()->json([
-                'message' => "create invitation",
-                'response' => $this->invitationService->createInvitation($from_id, $startup_id, $getUserByEmail->id)
-            ], 200);
+                'message' => "El usuario no es ". (($type == 1) ? "fundador": "inversor"),
+                'response' => []
+            ], 402);
+
         }
+
         return response()->json([
             'message' => "not found mail",
             'response' => []
@@ -69,10 +81,11 @@ class InvitationsController extends Controller
     public function getByUserId(Request $request)
     {
 
-        $user_id = $request->user;
+        $user_id = $request->user_id;
+        Log::debug(strval($this->invitationService->addStartUpInfo($this->invitationService->getByUserId($user_id))));
         return response()->json([
             'message' => "get inivtations by user id",
-            'response' => $this->invitationService->getByUserId($user_id)
+            'response' => $this->invitationService->addStartUpInfo($this->invitationService->getByUserId($user_id))
         ], 200);
     }
 
@@ -83,6 +96,20 @@ class InvitationsController extends Controller
         return response()->json([
             'message' => "get inivtations by startup_id",
             'response' => $this->invitationService->getByStartUpId($user_id)
+        ], 200);
+    }
+
+    public function acceptInvitation(Request $request)
+    {
+        $invitation_id = $request->invitation_id;
+        $invitation = $this->invitationService->getById($invitation_id);
+        $startup_id = $invitation->startup_id;
+        $user_id = $invitation->to_user;
+        $type = $invitation->type;
+        $res = $this->invitationService->acceptInvitation($startup_id, $user_id, $type);
+        return response()->json([
+            'message' => "accepted invitation",
+            'response' => $res
         ], 200);
     }
 }

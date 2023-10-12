@@ -12,6 +12,7 @@ class Invitations extends Model
         'from_user',
         'to_user',
         'startup_id',
+        'type'
     ];
     use HasFactory;
 }

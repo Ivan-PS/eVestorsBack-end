@@ -11,6 +11,8 @@ use App\Http\Controllers\InversionRelationController;
 use App\Http\Controllers\PermisionController;
 use App\Http\Controllers\StartupController;
 use \App\Http\Controllers\NewsController;
+use \App\Http\Controllers\InvitationsController;
+
 use App\Models\File;
 
 /*
@@ -127,17 +129,16 @@ Route::group(['prefix' => '/news'], function () {
     Route::post('/delete', [NewsController::class, 'deleteById']);
     Route::post('/getAll', [NewsController::class, 'getAll']);
     Route::post('/getById', [NewsController::class, 'getById']);
-}
-);
+});
 
-/*Route::get('/getFile/{file_id}', function ($file_id) {
-    $file = File::where("id", $file_id)->get();*/
-    // $path = "app/public/".$file->path;
-    /*if (!file_exists()) {
-        abort(404);
-    }*/
-
-    // return response()->file(public_path($file->path));
-/*})*/
+Route::group(['prefix' => '/invitations'], function () {
+    Route::post('/create', [InvitationsController::class, 'create']);
+    Route::post('/deleteById', [InvitationsController::class, 'deleteById']);
+    Route::post('/getAll', [InvitationsController::class, 'getAll']);
+    Route::post('/accept', [InvitationsController::class, 'acceptInvitation']);
+    Route::post('/getById', [InvitationsController::class, 'getById']);
+    Route::post('/getByUserId', [InvitationsController::class, 'getByUserId']);
+    Route::post('/getByStartUpId', [InvitationsController::class, 'getByStartupId']);
+});
 
 Route::get('/getFile/{file_id}', [FileController::class, 'getFileView'])->name('file.download');

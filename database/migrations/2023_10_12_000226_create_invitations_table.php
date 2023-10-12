@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
+            $table->integer('from_user');
+            $table->integer('to_user');
+            $table->integer('startup_id');
+            $table->integer('type');
             $table->timestamps();
         });
     }
