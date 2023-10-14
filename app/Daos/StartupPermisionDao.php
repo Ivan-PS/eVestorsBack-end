@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 
 class StartupPermisionDao
 {
+
+
     public function create($user_id, $startup_id)
     {
 
