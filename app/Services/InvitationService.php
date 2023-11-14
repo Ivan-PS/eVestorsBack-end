@@ -54,7 +54,7 @@ class InvitationService
     public function acceptInvitation($startup_id, $user_id, $type)
     {
         if ($type == 1){
-            $this->startUpService->createStartUpPermision($startup_id, $user_id);
+            $this->startUpService->createStartUpPermision($startup_id, $user_id, 0);
         }
         else if($type == 2){
             return $this->startUpService->createInversor($user_id, $startup_id, 0);

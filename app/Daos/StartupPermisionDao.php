@@ -9,12 +9,13 @@ class StartupPermisionDao
 {
 
 
-    public function create($user_id, $startup_id)
+    public function create($user_id, $startup_id, $percent)
     {
 
         $startup_permision = StartupPermision::create([
             "user_id"=> $user_id,
-            "startup_id"=> $startup_id
+            "startup_id"=> $startup_id,
+            "percent" =>$percent
         ]);
 
         return $startup_permision;

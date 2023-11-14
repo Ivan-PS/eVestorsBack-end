@@ -70,7 +70,7 @@ class UserManagmentController extends Controller
         $startup_id = $request->startup_id;
 
         $user = $this->userService->registerUser($name, $password, $firstName, $secondName, $email, $type);
-        $this->startUpService->createStartUpPermision($startup_id, $user->id);
+        $this->startUpService->createStartUpPermision($startup_id, $user->id, 0);
         $this->folderService->createPermisionsToAllFoldersFromStartup($user->id, $startup_id);
 
 

@@ -23,6 +23,9 @@ class StartupController extends Controller
 
 
         $startup = $this->startupService->createStartup($user_id, $name, $description);
+        $startup["owners"] = $this->startupService->getFoundersAllowedByStartUpId($startup->id);
+        $startup["inversors"] = $this->startupService->getInversorsAllowedByStartUpId($startup->id);
+
         return response()->json([
                 'message' => "created startup",
                 'response' => $startup,
@@ -32,7 +35,7 @@ class StartupController extends Controller
         public function getByIdUser(Request $request)
         {
             $user_id = $request->idUser;
-
+            Log::debug("user_id".$user_id);
 
             $startups = $this->startupService->getByUserId($user_id);
             return response()->json([

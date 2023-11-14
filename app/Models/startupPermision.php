@@ -10,5 +10,6 @@ class StartupPermision extends Model
     protected $fillable = [
         'user_id',
         'startup_id',
+        'percent',
     ];
 }

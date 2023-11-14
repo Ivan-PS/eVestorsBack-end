@@ -29,22 +29,31 @@ class StartupService
 
     public function getById($id)
     {
-        return $this->startupDao->getById($id);
+
+
+        $startup = $this->startupDao->getById($id);
+        $startup["owners"] = $this->getFoundersAllowedByStartUpId($id);
+        $startup["inversors"] = $this->getInversorsAllowedByStartUpId($id);
+        return $startup;
     }
 
     public function createStartUp($user_id, $name, $description)  {
         $startUp = $this->startupDao->create($user_id, $name, $description);
-        $this->startUpsPermisionsDao->create($user_id, $startUp->id);
+        $this->startUpsPermisionsDao->create($user_id, $startUp->id, 0);
         return $startUp;
     }
 
     public function updateById($startup_id, $name, $description)
     {
-        return $this->startupDao->updateById($startup_id, $name, $description);
+
+        $startup = $this->startupDao->updateById($startup_id, $name, $description);
+        $startup["owners"] = $this->getFoundersAllowedByStartUpId($startup_id);
+        $startup["inversors"] = $this->getInversorsAllowedByStartUpId($startup_id);
+        return $startup;
     }
 
-    public function createStartUpPermision($startup_id, $user_id){
-        $this->startUpsPermisionsDao->create($user_id, $startup_id);
+    public function createStartUpPermision($startup_id, $user_id, $percent){
+        $this->startUpsPermisionsDao->create($user_id, $startup_id, $percent);
     }
 
     public function getByUserId($idUser)  {
@@ -55,6 +64,9 @@ class StartupService
         foreach ($startUpsPermisions as  $startUpsPermision) {
             if($startUpsPermision->user_id == $idUser){
                 $startUp = $this->startupDao->getById($startUpsPermision->startup_id);
+                $startUp["owners"] = $this->getFoundersAllowedByStartUpId($startUp->id);
+                $startUp["inversors"] = $this->getInversorsAllowedByStartUpId($startUp->id);
+
                 array_push($startUpsAllowed, $startUp);
             }
 
@@ -86,6 +98,7 @@ class StartupService
 
         foreach ($inversionPermisions as  $inversionPermision) {
             $user = $this->userDao->getById($inversionPermision->user_id);
+            $user["percent"] = $inversionPermision->percent;
             array_push($inversiorsAllowed, $user);
         }
         return $inversiorsAllowed;
@@ -97,6 +110,8 @@ class StartupService
 
         foreach ($inversionPermisions as  $inversionPermision) {
             $user = $this->userDao->getById($inversionPermision->user_id);
+            $user["percent"] = $inversionPermision->percent;
+
             array_push($inversiorsAllowed, $user);
         }
         return $inversiorsAllowed;
