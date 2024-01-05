@@ -1,2 +1,2 @@
 #!/bin/bash
-php /home/root/eVestorsBack-end/artisan serve --host=23.254.229.254 --port=8000
+php /root/eVestorsBack-end/artisan serve --host=194.163.173.164 --port=8000

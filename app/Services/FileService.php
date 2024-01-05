@@ -69,6 +69,7 @@ class FileService
             Log::debug($permisionsInFile);
             foreach ($permisionsInFile as $permisionInFile) {
                 if($permisionInFile->user_id == $idUser){
+                    $file->folder = $this->folderService->getById($file->folder_id);
                     array_push($filesAllowed, $file);
                 }
             }

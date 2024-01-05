@@ -96,7 +96,7 @@ Route::group(['prefix' => '/permision'], function () {
 Route::group(['prefix' => '/startUp'], function () {
 
     Route::post('/create', [StartupController::class, 'create']);
-    Route::post('/getAllowed', [StartupController::class, 'getByIdUser']);
+    Route::post('/getAllowed', [StartupController::class, 'getBySession']);
     Route::post('/getFounders', [StartupController::class, 'getFounders']);
     Route::post('/getInversors', [StartupController::class, 'getInversors']);
     Route::post('/getById', [StartupController::class, 'getStartUpById']);

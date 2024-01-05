@@ -19,7 +19,9 @@ class InvitationsController extends Controller
 
     public function create(Request $request)
     {
-        $from_id= $request->form_id;
+        $token = $request->token;
+        $from_user = $this->userService->getUserBySession($token);
+        $from_id = $from_user->id;
         $startup_id = $request->startup_id;
         $to_email = $request->to_email;
         $type = $request->type;
@@ -27,7 +29,7 @@ class InvitationsController extends Controller
 
 
 
-        if ($getUserByEmail != null || $getUserByEmail != null){
+        if ($getUserByEmail != null){
             if ($type == $getUserByEmail->type) {
                 return response()->json([
                     'message' => "create invitation",
@@ -80,12 +82,13 @@ class InvitationsController extends Controller
 
     public function getByUserId(Request $request)
     {
-
-        $user_id = $request->user_id;
-        Log::debug(strval($this->invitationService->addStartUpInfo($this->invitationService->getByUserId($user_id))));
+        $token = $request->token;
+        $user = $this->userService->getUserBySession($token);
+        $user_id = $user->id;
+        Log::debug(strval($token));
         return response()->json([
             'message' => "get inivtations by user id",
-            'response' => $this->invitationService->addStartUpInfo($this->invitationService->getByUserId($user_id))
+            'response' => $this->invitationService->getByUserId($user_id)
         ], 200);
     }
 
@@ -102,11 +105,13 @@ class InvitationsController extends Controller
     public function acceptInvitation(Request $request)
     {
         $invitation_id = $request->invitation_id;
+        Log::debug("Invitation ".$invitation_id, );
+
         $invitation = $this->invitationService->getById($invitation_id);
         $startup_id = $invitation->startup_id;
         $user_id = $invitation->to_user;
         $type = $invitation->type;
-        $res = $this->invitationService->acceptInvitation($startup_id, $user_id, $type);
+        $res = $this->invitationService->acceptInvitation($invitation_id, $startup_id, $user_id, $type);
         return response()->json([
             'message' => "accepted invitation",
             'response' => $res

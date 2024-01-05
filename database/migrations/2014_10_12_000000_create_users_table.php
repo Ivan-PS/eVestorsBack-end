@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('secondName');
             $table->integer('type');
             $table->String('sessionToken');
+            $table->String('phone');
+            $table->String('imagePath')->default("");
             $table->String('fbToken')->default("");
             $table->rememberToken();
             $table->timestamps();

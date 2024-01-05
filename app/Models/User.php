@@ -25,7 +25,9 @@ class User extends Authenticatable
         'secondName',
         'type',
         'sessionToken',
-        "fbToken"
+        'phone',
+        "fbToken",
+        "imagePath"
     ];
 
     /**

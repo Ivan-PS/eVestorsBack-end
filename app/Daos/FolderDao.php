@@ -25,7 +25,7 @@ class FolderDao
     public function getById($id)
     {
 
-        $folder = Folder::where('id', $id)->get();
+        $folder = Folder::where('id', $id)->first();
         return $folder;
     }
 

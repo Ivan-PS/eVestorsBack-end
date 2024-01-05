@@ -30,7 +30,8 @@ class FolderController extends Controller
     public function create(Request $request)
     {
         Log::debug("CREATE FOLDER");
-        $user_id = $request->idUser;
+        $user = $this->userService->getUserBySession($request->token);
+        $user_id = $user->id;
         $name = $request->name;
         $description = $request->description;
         $parent = $request->parent;
@@ -108,8 +109,9 @@ class FolderController extends Controller
     }
 
     public function getFoldersByIdUserWithPermisions(Request $request){
+        $user = $this->userService->getUserBySession($request->token);
         $parent = $request->parent;
-        $user_id = $request->idUser;
+        $user_id = $user->id;
         $startup_id = $request->startup_id;
         $folders = $this->folderService->getFoldersByIdUserWithPermisions($user_id, $parent, $startup_id);
         return response()->json([

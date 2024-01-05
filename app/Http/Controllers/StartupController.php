@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Services\StartupService;
 use Illuminate\Support\Facades\Log;
@@ -9,14 +10,18 @@ use Illuminate\Support\Facades\Log;
 class StartupController extends Controller
 {
     protected $startupService;
+    protected $userService;
 
-    public function __construct(StartupService $startupService)
+    public function __construct(StartupService $startupService, UserService  $userService)
     {
         $this->startupService = $startupService;
+        $this->userService = $userService;
     }
     public function create(Request $request)
     {
-        $user_id = $request->idUser;
+        $sesion = $request->token;
+        $user = $this->userService->getUserBySession($sesion);
+        $user_id = $user->id;
 
         $name = $request->name;
         $description = $request->description;
@@ -32,9 +37,13 @@ class StartupController extends Controller
             ], 200);
         }
 
-        public function getByIdUser(Request $request)
+        public function getBySession(Request $request)
         {
-            $user_id = $request->idUser;
+            Log::debug("session ".$request->token);
+
+            $sesion = $request->token;
+            $user = $this->userService->getUserBySession($sesion);
+            $user_id = $user->id;
             Log::debug("user_id".$user_id);
 
             $startups = $this->startupService->getByUserId($user_id);

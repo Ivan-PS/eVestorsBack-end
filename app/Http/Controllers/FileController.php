@@ -24,7 +24,7 @@ class FileController extends Controller
     protected  $folderService;
     protected  $inversionPermisionService;
     protected $startUpService;
-    protected $userService;
+    protected $create;
     public function __construct(FileService $fileService, FolderService $folderService, PermisionDao $inversionPermisionService, StartupService $startupService, UserService $userService)
     {
         $this->fileService = $fileService;
@@ -38,7 +38,9 @@ class FileController extends Controller
     {
         Log::debug((str("VALUE FILE REQUEST")));
         Log::debug((str($request)));
-        $user_id = $request->input("user_id");
+        $sesion = $request->input('token');
+        $user = $this->userService->getUserBySession($sesion);
+        $user_id = $user->id;
         $startup_id = $request->input("startup_id");
         $folder_name = $request->input("folder_name");
         $folder_id = $request->input("folder_id");
@@ -142,7 +144,9 @@ class FileController extends Controller
 
     public function getFilesByIdUserWithPermisions(Request $request){
         $folder_id = $request->parent;
-        $user_id = $request->user_id;
+        $sesion = $request->input('token');
+        $user = $this->userService->getUserBySession($sesion);
+        $user_id = $user->id;
         $startup_id = $request->startup_id;
 
         $files = $this->fileService->getFilesByIdUserWithPermisions($user_id, $folder_id, $startup_id);

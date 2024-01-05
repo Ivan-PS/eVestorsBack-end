@@ -35,9 +35,10 @@ class UserManagmentController extends Controller
     $firstName = $request->firstName;
     $secondName = $request->secondName;
     $email = $request->email;
+    $phone = $request->phone;
     $type = $request->type;
-
-    $user = $this->userService->registerUser($name, $password, $firstName, $secondName, $email, $type);
+    $image = $request->file('iamge');
+    $user = $this->userService->registerUser($name, $password, $firstName, $secondName, $email, $phone, $type);
 
     Log::debug("USER CREATED: " . strval($user));
 

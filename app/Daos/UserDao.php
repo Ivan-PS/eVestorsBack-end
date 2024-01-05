@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserDao
 {
-    public function create($name, $password, $firstName, $secondName, $email, $type, $tokenSession)
+    public function create($name, $password, $firstName, $secondName, $email, $type, $phone, $tokenSession)
     {
 
 
@@ -21,6 +21,7 @@ class UserDao
             "firstName"=> $firstName,
             "secondName"=> $secondName,
             "type"=> $type,
+            "phone"=> $phone, 
             "sessionToken" => $tokenSession
         ]);
 
@@ -80,11 +81,24 @@ class UserDao
         $user = User::where('id', $user_id)
             ->update([
                 'email' => $email,
-                "name" => $name, 
-                "firstName" => $firstName, 
+                "name" => $name,
+                "firstName" => $firstName,
                 "secondName" => $secondName
             ]);
         return $user;
+    }
+
+    public function getUserBySession($session)
+    {
+        $user = User::where('sessionToken', $session)->first();
+        return $user;
+    }
+
+    public function uploadImagePath($user_id, $imagePath){
+        $user = User::where('id', $user_id)
+        ->update([
+            'imagePath' => $imagePath,
+        ]);
     }
 
 }

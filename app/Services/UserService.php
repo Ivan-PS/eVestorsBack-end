@@ -34,10 +34,33 @@ class UserService
         return $this->userDao->getUserById($id);
     }
 
-    public function registerUser($name, $password, $firstName, $secondName, $email, $type){
+    public function registerUser($name, $password, $firstName, $secondName, $email, $phone, $type){
         $sessionToken = $this->generateRandomToken();
-        $user = $this->userDao->create($name, $password, $firstName, $secondName, $email, $type, $sessionToken);
+        $user = $this->userDao->create($name, $password, $firstName, $secondName, $email, $type, $phone, $sessionToken);
+        
         return $user;
+    }
+
+    public function uploadImage($image, $userId){
+        if ($userId != null && $userId != 1){
+            $path = "UserImage/".$user_id;
+
+        }
+        $fileName = $image->getClientOriginalName();
+        $filePath = public_path($path);
+        $image->move($filePath, $fileName);
+        $this->uploadImagePath($userId, $filePath. "/". $fileName);
+        Log::debug("path: ".str($path));
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+    }
+
+    public function uploadImagePath($user_id, $imagePath){
+        $this->userDao->uploadImagePath($user_id, $imagePath);
+
     }
 
     public function generateRandomToken() {
@@ -63,6 +86,13 @@ class UserService
 
     public function updateById($user_id, $email, $name, $firstName, $secondName){
         return $this->userDao->updateById($user_id, $email, $name, $firstName, $secondName);
+    }
+
+
+    public function getUserBySession($session)
+    {
+        return $this->userDao->getUserBySession($session);
+
     }
 
 
